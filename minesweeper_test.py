@@ -1,0 +1,232 @@
+import unittest
+from minesweeper import MineSweeper
+from minegenerator import MinesGenerator
+
+
+class MinesweeperTest(unittest.TestCase):
+    """
+    This class tests functionality MineSweeper class.
+    """
+
+    def test_update_matrix_center_case(self):
+        """Tests update_matrix method for center case, it should update all the neighbour cell"""
+        mine_sweeper = MineSweeper()
+        matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        expect_matrix = [[1, 1, 1], [1, '*', 1], [1, 1, 1]]
+        mine_sweeper.update_matrix(matrix, 1, 1)
+        self.assertEqual(matrix, expect_matrix)
+
+    def test_update_matrix_up_left_corner_case(self):
+        """Tests update_matrix method for up_left corner case, it should update all the neighbour cell around the
+         up_left corner """
+        mine_sweeper = MineSweeper()
+        matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        expect_matrix = [['*', 1, 0], [1, 1, 0], [0, 0, 0]]
+        mine_sweeper.update_matrix(matrix, 0, 0)
+        self.assertEqual(matrix, expect_matrix)
+
+    def test_update_matrix_bottom_right_corner_case(self):
+        """Tests update_matrix method for bottom_right corner case, it should update all the neighbour cell around the
+        bottom_right corner """
+        mine_sweeper = MineSweeper()
+        matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        expect_matrix = [[0, 0, 0], [0, 1, 1], [0, 1, '*']]
+        mine_sweeper.update_matrix(matrix, 2, 2)
+        self.assertEqual(matrix, expect_matrix)
+
+    def test_matrix_to_string(self):
+        """Tests matrix_to_string method, it should convert the matrix to expected string"""
+        mine_sweeper = MineSweeper()
+        matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        convert_string = mine_sweeper.matrix_to_string(matrix)
+        expect_string = "000\n000\n000\n"
+        self.assertEqual(convert_string, expect_string)
+
+    def test_process_input(self):
+        """Tests process_input method, it should process all the matrix to expected matrix"""
+        mine_sweeper = MineSweeper()
+        input_file = open('test.txt', 'r')
+        res = mine_sweeper.process_input(input_file)
+        expect_first_matrix = [[1, 1, 1], [1, '*', 1], [1, 1, 1]]
+        expect_second_matrix = [[0, 0, 0], [0, 1, 1], [0, 1, '*']]
+        for i, matrix in enumerate(res):
+            if i == 0:
+                self.assertEqual(matrix, expect_first_matrix)
+            if i == 1:
+                self.assertEqual(matrix, expect_second_matrix)
+        input_file.close()
+
+    def test_read_min_row_col_data_1x1(self):
+        """Ensure minesweeper can properly read in the rows, columns, and data for a single minefield."""
+        arr = [[1, 1, 50],
+               [0, 0]]
+        mine_sweeper = MineSweeper()
+        mine_generator = MinesGenerator()
+        created_input_file = open("test_read_min_row_col_data_1x1.txt", "w")
+        mine_generator.gen_random_minefield(arr, created_input_file)
+        created_input_file.close()
+        input_file = open("test_read_min_row_col_data_1x1.txt", "r")
+        input_matrix_size = f"{arr[0][0]} {arr[0][1]}"
+        input_array = []  # create an array to hold all data from input file
+        while True:
+            input_content = input_file.readline().strip()
+            if not input_content[0].isnumeric():  # test content if it is a minefield
+                array = list(input_content.strip())
+                input_array.append(array)
+            if input_content[0].isnumeric() and input_content == "0 0":
+                break
+        input_file.close()
+        #  convert matrix back to raw minefield data without updating adjacent number of mines
+        input_file = open("test_read_min_row_col_data_1x1.txt", "r")
+        output_matrix = mine_sweeper.process_input(input_file)
+        for matrix in output_matrix:
+            row = len(matrix)
+            width = len(matrix[0])
+            output_matrix_size = f"{row} {width}"
+            for i in range(len(matrix)):
+                for j in range(len(matrix[0])):
+                    if matrix[i][j] != "*":
+                        matrix[i][j] = "."
+            self.assertEqual(input_matrix_size, output_matrix_size)
+            self.assertEqual(input_array, matrix)
+        input_file.close()
+
+    def test_read_min_row_col_data_1x100(self):
+        """Ensure minesweeper can properly read in the rows, columns, and data for a single minefield."""
+        arr = [[1, 100, 50],
+               [0, 0]]
+        mine_sweeper = MineSweeper()
+        mine_generator = MinesGenerator()
+        created_input_file = open("test_read_min_row_col_data_1x100.txt", "w")
+        mine_generator.gen_random_minefield(arr, created_input_file)
+        created_input_file.close()
+        input_file = open("test_read_min_row_col_data_1x100.txt", "r")
+        input_matrix_size = f"{arr[0][0]} {arr[0][1]}"
+        input_array = []  # create an array to hold all data from input file
+        while True:
+            input_content = input_file.readline().strip()
+            if not input_content[0].isnumeric():  # test content if it is a minefield
+                array = list(input_content.strip())
+                input_array.append(array)
+            if input_content[0].isnumeric() and input_content == "0 0":
+                break
+        input_file.close()
+        #  convert matrix back to raw minefield data without updating adjacent number of mines
+        input_file = open("test_read_min_row_col_data_1x100.txt", "r")
+        output_matrix = mine_sweeper.process_input(input_file)
+        for matrix in output_matrix:
+            row = len(matrix)
+            width = len(matrix[0])
+            output_matrix_size = f"{row} {width}"
+            for i in range(len(matrix)):
+                for j in range(len(matrix[0])):
+                    if matrix[i][j] != "*":
+                        matrix[i][j] = "."
+            self.assertEqual(input_matrix_size, output_matrix_size)
+            self.assertEqual(input_array, matrix)
+        input_file.close()
+
+    def test_read_min_row_col_data_100x1(self):
+        """Ensure minesweeper can properly read in the rows, columns, and data for a single minefield."""
+        arr = [[100, 1, 50],
+               [0, 0]]
+        mine_sweeper = MineSweeper()
+        mine_generator = MinesGenerator()
+        created_input_file = open("test_read_min_row_col_data_100x1.txt", "w")
+        mine_generator.gen_random_minefield(arr, created_input_file)
+        created_input_file.close()
+        input_file = open("test_read_min_row_col_data_100x1.txt", "r")
+        input_matrix_size = f"{arr[0][0]} {arr[0][1]}"
+        input_array = []  # create an array to hold all data from input file
+        while True:
+            input_content = input_file.readline().strip()
+            if not input_content[0].isnumeric():  # test content if it is a minefield
+                array = list(input_content.strip())
+                input_array.append(array)
+            if input_content[0].isnumeric() and input_content == "0 0":
+                break
+        input_file.close()
+        #  convert matrix back to raw minefield data without updating adjacent number of mines
+        input_file = open("test_read_min_row_col_data_100x1.txt", "r")
+        output_matrix = mine_sweeper.process_input(input_file)
+        for matrix in output_matrix:
+            row = len(matrix)
+            width = len(matrix[0])
+            output_matrix_size = f"{row} {width}"
+            for i in range(len(matrix)):
+                for j in range(len(matrix[0])):
+                    if matrix[i][j] != "*":
+                        matrix[i][j] = "."
+            self.assertEqual(input_matrix_size, output_matrix_size)
+            self.assertEqual(input_array, matrix)
+        input_file.close()
+
+    def test_read_min_row_col_data_100x100(self):
+        """Ensure minesweeper can properly read in the rows, columns, and data for a single minefield."""
+        arr = [[100, 100, 50],
+               [0, 0]]
+        mine_sweeper = MineSweeper()
+        mine_generator = MinesGenerator()
+        created_input_file = open("test_read_min_row_col_data_100x100.txt", "w")
+        mine_generator.gen_random_minefield(arr, created_input_file)
+        created_input_file.close()
+        input_file = open("test_read_min_row_col_data_100x100.txt", "r")
+        input_matrix_size = f"{arr[0][0]} {arr[0][1]}"
+        input_array = []  # create an array to hold all data from input file
+        while True:
+            input_content = input_file.readline().strip()
+            if not input_content[0].isnumeric():  # test content if it is a minefield
+                array = list(input_content.strip())
+                input_array.append(array)
+            if input_content[0].isnumeric() and input_content == "0 0":
+                break
+        input_file.close()
+        #  convert matrix back to raw minefield data without updating adjacent number of mines
+        input_file = open("test_read_min_row_col_data_100x100.txt", "r")
+        output_matrix = mine_sweeper.process_input(input_file)
+        for matrix in output_matrix:
+            row = len(matrix)
+            width = len(matrix[0])
+            output_matrix_size = f"{row} {width}"
+            for i in range(len(matrix)):
+                for j in range(len(matrix[0])):
+                    if matrix[i][j] != "*":
+                        matrix[i][j] = "."
+            self.assertEqual(input_matrix_size, output_matrix_size)
+            self.assertEqual(input_array, matrix)
+        input_file.close()
+
+    def test_read_min_row_col_data_37x49(self):
+        """Ensure minesweeper can properly read in the rows, columns, and data for a single minefield."""
+        arr = [[37, 49, 50],
+               [0, 0]]
+        mine_sweeper = MineSweeper()
+        mine_generator = MinesGenerator()
+        created_input_file = open("test_read_min_row_col_data_37x49.txt", "w")
+        mine_generator.gen_random_minefield(arr, created_input_file)
+        created_input_file.close()
+        input_file = open("test_read_min_row_col_data_37x49.txt", "r")
+        input_matrix_size = f"{arr[0][0]} {arr[0][1]}"
+        input_array = []  # create an array to hold all data from input file
+        while True:
+            input_content = input_file.readline().strip()
+            if not input_content[0].isnumeric():  # test content if it is a minefield
+                array = list(input_content.strip())
+                input_array.append(array)
+            if input_content[0].isnumeric() and input_content == "0 0":
+                break
+        input_file.close()
+        #  convert matrix back to raw minefield data without updating adjacent number of mines
+        input_file = open("test_read_min_row_col_data_37x49.txt", "r")
+        output_matrix = mine_sweeper.process_input(input_file)
+        for matrix in output_matrix:
+            row = len(matrix)
+            width = len(matrix[0])
+            output_matrix_size = f"{row} {width}"
+            for i in range(len(matrix)):
+                for j in range(len(matrix[0])):
+                    if matrix[i][j] != "*":
+                        matrix[i][j] = "."
+            self.assertEqual(input_matrix_size, output_matrix_size)
+            self.assertEqual(input_array, matrix)
+        input_file.close()

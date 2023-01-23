@@ -37,7 +37,7 @@ class MineSweeper:
         """
         method to process input data, create matrix by the matrix size. According to each cell value calling
         update_matrix method to update value inside matrix.
-        :param input_date: input_file
+        :param input_data: input_file
         :return: yield to all matrix
         """
         while True:
@@ -62,18 +62,26 @@ class MineSweeper:
 
 
 if __name__ == '__main__':
-    a = [[1, 1, 50],
-         [1, 100, 50],
-         [100, 1, 50],
-         [0, 0]]
+    arr = [[1, 1, 50],
+           [1, 100, 50],
+           [100, 1, 50],
+           [100, 100, 50],
+           [50, 50, 50],
+           [3, 5, 50],
+           [27, 33, 50],
+           [47, 59, 50],
+           [99, 99, 50],
+           [0, 0]]
 
     mine_generator = MinesGenerator()
     mines_sweeper = MineSweeper()
 
-    created_input = open("input.txt", "w")
-    mine_generator.gen_random_minefield(a, created_input)
+    created_input = open("minesweeper_input.txt", "w")
+    mine_generator.gen_random_minefield(arr, created_input)
     created_input.close()
 
-    input_file = open('mines.txt', 'r')
+    input_file = open('minesweeper_input.txt', 'r')
     output_file = open('minesweeper_output.txt', 'w')
     mines_sweeper.main(input_file, output_file)
+    input_file.close()
+    output_file.close()

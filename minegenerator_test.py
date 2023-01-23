@@ -13,9 +13,9 @@ class MinegeneratorTest(unittest.TestCase):
         outfile = StringIO()
         mine_generator = MinesGenerator()
         array = [[1, 1, 50],
-             [1, 100, 50],
-             [100, 1, 50],
-             [0, 0]]
+                 [1, 100, 50],
+                 [100, 1, 50],
+                 [0, 0]]
         mine_generator.gen_random_minefield(array, outfile)
         outfile.seek(0)
         content = outfile.read()
