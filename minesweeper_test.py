@@ -8,6 +8,13 @@ class MinesweeperTest(unittest.TestCase):
     This class tests functionality MineSweeper class.
     """
 
+    def test_update_matrix_sets_mine(self):
+        """Test that update_matrix method sets '*' at (1,1) for a 3x3 matrix  """
+        mine_sweeper = MineSweeper()
+        matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        mine_sweeper.update_matrix(matrix, 1, 1)
+        self.assertEqual('*', matrix[1][1])
+
     def test_update_matrix_center_case(self):
         """Tests update_matrix method for center case, it should update all the neighbour cell"""
         mine_sweeper = MineSweeper()
@@ -35,7 +42,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertEqual(matrix, expect_matrix)
 
     def test_update_matrix_up_size_3x3(self):
-        """Tests update_matrix method at (0,1) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (0,1) for a 3x3 matrix filled only 0, it should update adjacent neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -44,7 +51,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_up_right_size_3x3(self):
-        """Tests update_matrix method at (0,2) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (0,2) for a 3x3 matrix filled only mines, it should update adjacent neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -53,7 +60,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_right_size_3x3(self):
-        """Tests update_matrix method at (1,2) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (1,2) for a 3x3 matrix filled only mines, it should update adjacent neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -62,7 +69,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_bottom_size_3x3(self):
-        """Tests update_matrix method at (2,1) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (2,1) for a 3x3 matrix filled only mines, it should not update neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -71,7 +78,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_bottom_left_size_3x3(self):
-        """Tests update_matrix method at (2,0) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (2,0) for a 3x3 matrix filled only mines, it should update adjacent neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -80,7 +87,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_left_size_3x3(self):
-        """Tests update_matrix method at (1,0) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (1,0) for a 3x3 matrix filled only mines, it should update adjacent neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -89,8 +96,8 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_with_prefilled_neighbors_size_3x3(self):
-        """Tests update_matrix method at (1,1) for a 3x3 matrix filled only mines, it should not update neighbour
-        cells """
+        """Tests update_matrix method at (1,1) for a 3x3 matrix filled with only hints, it should update adjacent
+        neighbour cells """
         mine_sweeper = MineSweeper()
         matrix = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
         expect_matrix = [[2, 2, 2], [2, '*', 2], [2, 2, 2]]
@@ -98,23 +105,16 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_with_one_updateable_neighbor_size_3x3(self):
-        """Tests update_matrix method at (1,1) for a 3x3 matrix filled only mines, it should not update neighbour
-        cells """
+        """Tests update_matrix method at (1,1) for a 3x3 matrix with only one updatable cell, it should update one
+        neighbor cell """
         mine_sweeper = MineSweeper()
         matrix = [[3, '*', '*'], ['*', 0, '*'], ['*', '*', '*']]
         expect_matrix = [[4, '*', '*'], ['*', '*', '*'], ['*', '*', '*']]
         mine_sweeper.update_matrix(matrix, 1, 1)
         self.assertListEqual(matrix, expect_matrix)
 
-    def test_update_matrix_sets_mine(self):
-        """Tests update_matrix method at (1,1) for a 3x3 matrix, should replace value with '*'  """
-        mine_sweeper = MineSweeper()
-        matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-        mine_sweeper.update_matrix(matrix, 1, 1)
-        self.assertEqual('*', matrix[1][1])
-
     def test_update_matrix_with_only_mines_size_3x3(self):
-        """Tests update_matrix method at (2,2) for a 3x3 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (2,2) for a 3x3 matrix filled with only mines, it should not update neighbor
         cells """
         mine_sweeper = MineSweeper()
         matrix = [['*', '*', '*'], ['*', 0, '*'], ['*', '*', '*']]
@@ -123,7 +123,7 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     def test_update_matrix_with_only_mines_size_1x100(self):
-        """Tests update_matrix method at (0,0) for a 1x100 matrix filled only mines, it should not update neighbour
+        """Tests update_matrix method at (0,0) for a 1x100 matrix filled with only mines, it should not update neighbour
         cells """
         mine_sweeper = MineSweeper()
         matrix = [['*'] * 100]
@@ -141,6 +141,30 @@ class MinesweeperTest(unittest.TestCase):
         mine_sweeper.update_matrix(matrix, 0, 0)
         self.assertListEqual(matrix, expect_matrix)
 
+    def test_update_matrix_with_no_mines_size_1x100(self):
+        """Tests update_matrix method at (0,50) for a 1x100 matrix filled with no mines, it should update two neighbor
+        cells """
+        mine_sweeper = MineSweeper()
+        matrix = [[0] * 100]
+        expect_matrix = [[0] * 100]
+        expect_matrix[0][50] = '*'
+        expect_matrix[0][49] = 1
+        expect_matrix[0][51] = 1
+        mine_sweeper.update_matrix(matrix, 0, 50)
+        self.assertListEqual(matrix, expect_matrix)
+
+    def test_update_matrix_with_no_mines_size_100x1(self):
+        """Tests update_matrix method at (5,0) for a 100x1 matrix filled with no mines, it should update 2 neighbor
+        cells """
+        mine_sweeper = MineSweeper()
+        matrix = [[0 for x in range(1)] for y in range(100)]
+        expect_matrix = [[0 for x in range(1)] for y in range(100)]
+        expect_matrix[5][0] = '*'
+        expect_matrix[4][0] = 1
+        expect_matrix[6][0] = 1
+        mine_sweeper.update_matrix(matrix, 5, 0)
+        self.assertListEqual(matrix, expect_matrix)
+
     def test_update_matrix_with_size_1x1(self):
         """Tests update_matrix method at (0,0) for a 1x1, it should not update neighbour
         cells """
@@ -151,13 +175,14 @@ class MinesweeperTest(unittest.TestCase):
         self.assertListEqual(matrix, expect_matrix)
 
     # def test_update_matrix_given_invalid_indexes(self):
-    #     """Tests update_matrix method at (5,5) for a 2x2 matrix, it should not modify matrix
+    #     """Tests update_matrix method at invalid place (5,5) for a 2x2 matrix, it should not modify matrix
     #     cells """
     #     mine_sweeper = MineSweeper()
     #     matrix = [[0, 0], [0, 0]]
     #     expect_matrix = [[0, 0], [0, 0]]
     #     mine_sweeper.update_matrix(matrix, 5, 5)
     #     self.assertListEqual(matrix, expect_matrix)
+
     def test_matrix_to_string(self):
         """Tests matrix_to_string method, it should convert the matrix to expected string"""
         mine_sweeper = MineSweeper()
