@@ -1,0 +1,11 @@
+C:\Users\Ji\AppData\Local\Programs\Python\Python39\python.exe "C:/Program Files/JetBrains/PyCharm 2022.2.2/plugins/python/helpers/pycharm/_jb_unittest_runner.py" --target minesweeper_test.MinesweeperTest 
+Testing started at 4:24 PM ...
+Launching unittests with arguments python -m unittest minesweeper_test.MinesweeperTest in C:\Users\Ji\PycharmProjects\504pythonProject\TCSS504_MineSweeper
+
+
+
+Ran 25 tests in 0.135s
+
+OK
+
+Process finished with exit code 0
